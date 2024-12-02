@@ -15,58 +15,60 @@ backgroundLayer4.src = 'assets/layer-4.png';
 const backgroundLayer5 = new Image();
 backgroundLayer5.src = 'assets/layer-5.png';
 
-const slider = document.querySelector('#slider');
-slider.value = gameSpeed;
-const showSpeed = document.querySelector('#showGameSpeed');
-showSpeed.textContent = gameSpeed
-slider.addEventListener('input', (e) => {
-    gameSpeed = parseInt(e.target.value);
+window.addEventListener('load', () => {
+    const slider = document.querySelector('#slider');
+    slider.value = gameSpeed;
+    const showSpeed = document.querySelector('#showGameSpeed');
     showSpeed.textContent = gameSpeed
-})
-
-class Layer {
-    constructor(image, speedModifier) {
-        this.x = 0;
-        this.y = 0;
-        this.width = 2400;
-        this.height = 700;
-        this.image = image;
-        this.speedModifier = speedModifier;
-        this.speed = gameSpeed * this.speedModifier;
-    }
-    update() {
-        this.speed = gameSpeed * this.speedModifier;
-        if (this.x <= -this.width) {
-            this.x = 0;
-        }
-        this.x = this.x - this.speed;   // 在原有的this.x的数值不变的基础上改变this.x的值，就不会出现跳帧的现象
-    }
-    draw() {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
-    }
-}
-
-const layer1 = new Layer(backgroundLayer1, 0.2);
-const layer2 = new Layer(backgroundLayer2, 0.4);
-const layer3 = new Layer(backgroundLayer3, 0.6);
-const layer4 = new Layer(backgroundLayer4, 0.8);
-const layer5 = new Layer(backgroundLayer5, 1);
-
-const gameObjects = [
-    layer1,
-    layer2,
-    layer3,
-    layer4,
-    layer5,
-];
-
-function animate() {
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    gameObjects.forEach((game) => {
-        game.update();
-        game.draw();
+    slider.addEventListener('input', (e) => {
+        gameSpeed = parseInt(e.target.value);
+        showSpeed.textContent = gameSpeed
     })
-    requestAnimationFrame(animate)
-}
-animate()
+
+    class Layer {
+        constructor(image, speedModifier) {
+            this.x = 0;
+            this.y = 0;
+            this.width = 2400;
+            this.height = 700;
+            this.image = image;
+            this.speedModifier = speedModifier;
+            this.speed = gameSpeed * this.speedModifier;
+        }
+        update() {
+            this.speed = gameSpeed * this.speedModifier;
+            if (this.x <= -this.width) {
+                this.x = 0;
+            }
+            this.x = this.x - this.speed;   // 在原有的this.x的数值不变的基础上改变this.x的值，就不会出现跳帧的现象
+        }
+        draw() {
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
+        }
+    }
+
+    const layer1 = new Layer(backgroundLayer1, 0.2);
+    const layer2 = new Layer(backgroundLayer2, 0.4);
+    const layer3 = new Layer(backgroundLayer3, 0.6);
+    const layer4 = new Layer(backgroundLayer4, 0.8);
+    const layer5 = new Layer(backgroundLayer5, 1);
+
+    const gameObjects = [
+        layer1,
+        layer2,
+        layer3,
+        layer4,
+        layer5,
+    ];
+
+    function animate() {
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        gameObjects.forEach((game) => {
+            game.update();
+            game.draw();
+        })
+        requestAnimationFrame(animate)
+    }
+    animate()
+})
